@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+{% block title %}Placement Portal System/Admin{% endblock%}
+{% block content %}
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        list-style: none;
+        }
+    .flex{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+    body{
+        background-color: rgb(32, 68, 127);
+        height: 200px; 
+    }
+    .ban{
+        height: 70px;
+        color: white;
+        border: 3px solid white; 
+        background-color: rgb(14, 32, 60);
+    }
+    input{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 5px 20px;
+        border: none;
+    }
+    button{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 20px;
+        margin-right: 25px;
+    }
+    h1{
+        padding-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+    a{
+        display: inline-block;
+        padding: 5px 20px;
+        background-color: #3498db;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin-right: 20px;
+        }
+
+    a:hover{
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    a:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    button:hover{
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    button:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    table{
+        border: 5px solid rgb(14, 32, 60);
+    }
+    td{
+        width: 1500px;
+        text-align: center;
+        padding: 5px 5px;
+        color: white;
+    }
+    th{
+        width: 1500px;
+        color: white;
+        padding: 5px 5px;
+        font-size: 20px;
+
+    }
+    .contain{
+        background-color: rgb(32, 68, 127);
+    }
+    .application_td td{
+        color:white; 
+        padding:12px 10px; 
+        font-size:20px;
+    }
+    .application-banner{
+        margin-bottom: 160px;
+    }
+</style>
+
+<div class="contain">
+    <div class="ban flex">
+        <h1>Welcome! Admin</h1>
+        <form class="navigation" method="GET" action="/admin/search">
+            <input name='search_query' type="search" class="search" placeholder="student , organisation" value="{{search_query or ''}}">
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </div>
+
+    <!-- regesterd comapny list -->
+    <div class="comapny-banner">
+        <div style="display: flex; justify-content: space-between; padding-top:10px; padding-bottom:5px">
+            <h1><span style="color: white;padding-left:20px;">Registered Companies</span></h1>
+        </div>
+        <div class="com-list">
+            <table>
+                {% if companies %}
+                {% for company in companies %}
+                <tr>
+                    <td style="border: 3px solid rgb(14, 32, 60);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="color:white; padding:12px 10px; font-size:20px;">{{ company.name }}</div>
+                            <div>
+                                {% if company.is_blacklist %}
+                                    <a href="{{url_for('un_blacklist_company' ,id=company.id)}}">REMOVE BLACKLIST</a>
+                                {% else %}
+                                    <a href="{{url_for('blacklist_company' ,id=company.id)}}">BLACKLIST</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr class="application_td">
+                    <td colspan="5" style="color: white;">No Company regestered</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+    <!-- regestered student list  -->
+    <div class="patient-banner">
+        <h1><span style="color: white;padding-left:20px;">Registered Students</span></h1>
+        <div class="patient-list">
+            <table>
+                {% if students %}
+                {% for student in students %}
+                <tr>
+                    <td style="border: 3px solid rgb(14, 32, 60);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="color:white; padding:12px 10px; font-size:20px;">{{ student.name }}</div>
+                            <div>
+                                {% if student.is_blacklist %}
+                                    <a href="{{url_for('un_blacklist_student' ,id=student.id)}}">REMOVE BLACKLIST</a>
+                                {% else %}
+                                    <a href="{{url_for('blacklist_company' ,id=student.id)}}">BLACKLIST</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr class="application_td">
+                    <td colspan="5" style="color: white;">No students regestered</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+
+    <!-- company application list  -->
+    <div class="patient-banner">
+        <h1><span style="color: white;padding-left:20px;">Company Applications</span></h1>
+        <div class="patient-list">
+            <table>
+                {% if applications %}
+                {% for application in applications %}
+                <tr>
+                    <td style="border: 3px solid rgb(14, 32, 60);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="color:white; padding:12px 10px; font-size:20px;">{{ application.company_name }}</div>
+                            <a href="{{url_for('approve_company',id=application.company_id)}}">{{ (application.Status).upper() }}</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr class="application_td">
+                    <td colspan="5" style="color: white;">No regestered applications</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+    <div class="drive-banner">
+        <h1><span style="color: white;padding-left:20px;">Ongoing Drives</span></h1>
+        <table border="2">
+            {% if drives %}
+                <tr class="application_td_1">
+                    <th>Sr. No.</th>
+                    <th>Drive name</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                {% for drive in drives %}
+                <tr class="application_td_1">
+                    <td>{{drive.id}}</td>
+                    <td>{{drive.drive_name}}</td>
+                    <td><a href="{{url_for('view_details',id=drive.id)}}">view details</a></td>
+                    <td><a href="{{url_for('drive_approve',id=drive.id)}}">mark as complete</a></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr class="application_td">
+                <td colspan="5" style="color: white;">No pending drives</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+
+
+    <!-- student application list -->
+    <div class="application-banner">
+        <h1><span style="color: white;padding-left:20px;">Student Applications</span></h1>
+        <table>
+            {% if stu_applications %}
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Name</th>
+                    <th>Drive</th>
+                    <th>Company</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                {% for application in stu_applications %}
+                <tr class="application_td">
+                    <td>{{ application.id}}</td>
+                    <td>{{ application.student_name}}</td>
+                    <td>{{ application.drive_name}}</td>
+                    <td>{{ application.company_name}}</td>
+                    <td>{{ application.date}}</td>
+                    <td><a href="{{url_for('stu_application',app_id=application.id)}}">view</a></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr class="application_td">
+                <td colspan="5" style="color: white;">No pending applications</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+</div>
+{% endblock %}

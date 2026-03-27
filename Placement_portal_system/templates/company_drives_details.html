@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Drives</title>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        list-style: none;
+        }
+    .flex{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+    body{
+        background-color: rgb(32, 68, 127);
+        height: 200px; 
+    }
+    .ban{
+        height: 70px;
+        color: white;
+        border: 3px solid white; 
+        background-color: rgb(14, 32, 60);
+    }
+    input{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 5px 20px;
+        border: none;
+    }
+    button{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 20px;
+        margin-right: 25px;
+    }
+    h1{
+        padding-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        color: white;
+    }
+    p{
+        color: white;
+        margin-left: 20px;
+        margin-right: 300px;
+        font-size: 20px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        margin-bottom: 50px;
+    }
+    a{
+        display: inline-block;
+        padding: 5px 20px;
+        background-color: #3498db;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin-right: 20px;
+        }
+
+    a:hover{
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    a:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    button:hover{
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    button:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    table{
+        border: 5px solid rgb(14, 32, 60);
+    }
+    td{
+        width: 1500px;
+        text-align: center;
+    }
+    th{
+        width: 1500px;
+        color:white; 
+        padding:12px 10px; 
+        font-size:20px;
+    }
+    .contain{
+        background-color: rgb(32, 68, 127);
+    }
+    <!-- .application_td td{
+        color:white; 
+        padding:12px 10px; 
+        font-size:20px;
+    } -->
+    .application-banner{
+        margin-bottom: 160px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="ban flex">
+            <h1>{{company.company_name}}</h1>
+            <div class="container-detail">
+                <a href="{{ url_for('student_dash',id=student.id) }}">Home</a>
+            </div>
+        </div>
+        
+        <div class="main">
+            <h1>Overview</h1>
+            <br>
+            <p>Through the application of innovation and our contextual knowledge, we give associates the opportunity to deliver transformative outcomes that benefit society at large and prove that anything is possible.</p>
+        </div>
+
+        <div class="drive-banner">
+            <div class="drive-banner-content flex">
+            <h1><span style="color: white;padding-left:20px;">Drives</span></h1>
+            </div>
+            <table border="2">
+                {% if drives %}
+                    {% for drive in drives %}
+                    <tr class="application_td">
+                        <th>{{drive.drive_name}}</th>
+                        <th><a href="{{ url_for('drive_apply',id=drive.id,stu_id=student.id) }}">view details</a></th>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr class="application_td">
+                    <td colspan="5" style="color: white;">No pending drives</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

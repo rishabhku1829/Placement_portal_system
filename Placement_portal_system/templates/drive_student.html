@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Students Application</title>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        list-style: none;
+        }
+    .flex{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+    body{
+        background-color: rgb(32, 68, 127);
+        height: 200px; 
+    }
+    .ban{
+        height: 70px;
+        color: white;
+        border: 3px solid white; 
+        background-color: rgb(14, 32, 60);
+        padding-left: 10px;
+    }
+    .contain-main{
+        padding: 15px 20px;
+        color: white;
+    }
+    table{
+        border: 5px solid rgb(14, 32, 60);
+    }
+    td{
+        width: 1500px;
+        text-align: center;
+    }
+    th{
+        width: 1500px;
+        color:white; 
+        padding:12px 10px; 
+        font-size:20px;
+    }
+    a{
+        display: inline-block;
+        padding: 5px 20px;
+        background-color: #3498db;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin-right: 20px;
+        }
+
+    a:hover{
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    a:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+</style>
+</head>
+<body>
+    <div class="contain">
+        <div class="ban flex">
+            <h1>Update Application for the drives</h1>
+        </div>
+        <div class="contain-main">
+            <h2>Job Title : {{ drive.job_title }}</h2>
+            <br><br>
+            <table border="2"> 
+                <h1>Recieved Application</h1>
+                <br>
+                {% if applications %}
+                {% for application in applications %}
+                <tr>
+                    <th>{{application.student_name}}</th>
+                    <th><a href="{{ url_for('student_application_details',app_id=application.id) }}">Review Application</a></th>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <th>No Data Found</th>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

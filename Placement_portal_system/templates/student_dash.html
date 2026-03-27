@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Placement Portal System/Company{% endblock%}
+{% block content %}
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        list-style: none;
+        }
+    .flex{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+    body{
+        background-color: rgb(32, 68, 127);
+        height: 200px; 
+    }
+    .ban{
+        height: 70px;
+        color: white;
+        border: 3px solid white; 
+        background-color: rgb(14, 32, 60);
+    }
+    input{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 5px 20px;
+        border: none;
+    }
+    button{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 20px;
+        margin-right: 25px;
+    }
+    h1{
+        padding-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+    a{
+        display: inline-block;
+        padding: 5px 20px;
+        background-color: #3498db;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin-right: 20px;
+        }
+
+    a:hover{
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    a:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    button:hover{
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+    button:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    table{
+        border: 5px solid rgb(14, 32, 60);
+    }
+    td{
+        width: 1500px;
+        text-align: center;
+    }
+    th{
+        width: 1500px;
+        color:white; 
+        padding:12px 10px; 
+        font-size:20px;
+    }
+    .contain{
+        background-color: rgb(32, 68, 127);
+    }
+    <!-- .application_td td{
+        color:white; 
+        padding:12px 10px; 
+        font-size:20px;
+    } -->
+    .application-banner{
+        margin-bottom: 160px;
+    }
+</style>
+
+<div class="contain">
+    <div class="ban flex">
+        <h1>Welcome! {{student.name}}</h1>
+        <div class="contain-details">
+            <a href="">Edit Profile</a>
+            <a href="{{url_for('student_history',id=student.id)}}">History</a>
+        </div>
+    </div>
+
+    <div class="drive-banner">
+        <div class="drive-banner-content flex">
+        <h1><span style="color: white;padding-left:20px;">Organizations</span></h1>
+        </div>
+        <table border="2">
+            {% if profiles %}
+                {% for profile in profiles %}
+                <tr class="application_td">
+                    <th>{{profile.company_name}}</th>
+                    <th><a href="{{url_for('company_drives_details',comp_id=profile.company_id,stu_id=student.id)}}">view details</a></th>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr class="application_td">
+                <td colspan="5" style="color: white;">No pending drives</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+
+    <div class="drive-banner">
+        <div class="drive-banner-content flex">
+        <h1><span style="color: white;padding-left:20px;">Applied Drives</span></h1>
+        </div>
+        <table border="2">
+            {% if applications %}
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Drive name</th>
+                    <th>Company</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+                {% for application in applications %}
+                <tr class="application_td">
+                    <td>{{application.id}}</td>
+                    <td>{{application.drive_name}}</td>
+                    <td>{{application.company_name}}</td>
+                    <td>{{application.date}}</td>
+                    <td><a href="">view details</a></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr class="application_td">
+                <td colspan="5" style="color: white;">No pending drives</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

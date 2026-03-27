@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive Details</title>
+<style>
+        *{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            list-style: none;
+        }
+        .flex{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .banner{
+            height: 70px;
+            color: white;
+            border: 3px solid white; 
+            background-color: rgb(14, 32, 60);
+        }
+        a{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: black;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-left: 600px;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        a:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .content{
+            background-color: rgb(32, 68, 127);
+            height: 500px;
+        }
+        h1{
+            padding-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        .content h3{
+            padding-top: 30px;
+            font-weight: bold;
+            font-size: 25px;
+            color: white;
+            margin-left: 30px;
+        }
+        .main-content{
+            background-color: rgb(32, 68, 127);
+            height: 500px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .content h1{
+            margin-top: 100px;
+            font-weight: bold;
+            font-size: 35px;
+            color: white;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin-right: 150px;
+        }
+        .banner h1{
+            margin-right: 20px;
+        }
+        p{
+            padding-top: 10px;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main">
+            <div class="banner flex">
+                <h1>Drives</h1>
+                <h1>{{ drive.drive_name }}</h1>
+            </div>
+            <div class="main-content">
+                {% if drive %}
+                <div class="content">
+                    <h3>Drive : {{drive.id}}</h3>
+                    <br><br>
+                    <h3>Job Title : {{drive.job_title}}</h3>
+                    <br><br>
+                    <h3>Job Description : {{drive.job_description}}</h3>
+                    <a href="/admin_dash">Go Back</a>
+                </div>
+                {% else %}
+                    <div class="content">
+                    <h3>Drive : No data found</h3>
+                    <br><br>
+                    <h3>Job Title : No data found</h3>
+                    <br><br>
+                    <h3>Job Description : No data found</h3>
+                    <br>
+                    <p>Please add a drive to the database first......!</p>
+                </div>
+                {% endif %}
+                <div class="content">
+                    <h1>{{company.name}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

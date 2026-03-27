@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    }
+    body{
+        background-color: rgb(32, 68, 127);
+        height: 200px; 
+    }
+    .ban{
+        height: 70px;
+        color: white;
+        border: 3px solid white; 
+        background-color: rgb(14, 32, 60);
+        text-align: center;
+    }
+    h1{
+        margin-top: 15px;
+    }
+    a{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: black;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-left: 600px;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        a:active{
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        button{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: black;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-left: 600px;
+            border-color: #2980b9;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        button:active{
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .form{
+            background-color: rgb(32, 68, 127);
+            height: 500px;
+        }
+        h1{
+            padding-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        .form label{
+            padding-top: 30px;
+            font-weight: bold;
+            font-size: 25px;
+            color: white;
+            margin-left: 30px;
+        }
+        input{
+            padding: 5px 5px;
+            margin-left: 40px;
+            margin-bottom: 30px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+        form{
+            border: 5px solid rgba(0,0,0,0.2);
+            margin: 30px 30px;
+            padding: 20px 20px;
+            border-radius: 50px;
+        }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="ban flex">
+            <h1>Complete Profile</h1>
+        </div>
+
+        <div class="form">
+            <form action="{{ url_for('update_profile',id=company.id) }}" method="POST">
+                <label for="company_name">Company Name : </label>
+                <input type="text" name="company_name" placeholder="Enter your company name">
+                <br>
+                <label for="hr_contact">HR Contact : </label>
+                <input type="number" name="hr_contact" placeholder="Enter contact of HR">
+                <br>
+                <label for="website">Website : </label>
+                <input type="text" name="website" placeholder="Enter your website name">
+                <br>
+                <button type="submit">Save</button>
+                <a href="{{ url_for('company_dash',comp_id=company.id) }}">Home</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

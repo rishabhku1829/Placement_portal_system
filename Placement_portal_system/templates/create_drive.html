@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}PPS-Create_Drive{% endblock%}
+{% block content %}
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        list-style: none;
+    }
+    body{
+        background-image: url(https://sciencelogic.com/wp-content/uploads/2021/04/blog-header-ema-automation-infographic-1.jpg);
+        width: 100%;
+        height: 200px;
+    }
+    form{
+        height: 400px;
+        width: 700px;
+        border: 5px solid white ;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        left: 20%;
+        padding: 10px 10px ;
+    }
+    form input{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 5px 20px;
+        border: none;
+    }
+    form label{
+        font-size: 20px;
+        margin-left: 20px;
+        color: white;
+    }
+    form a{
+        font-size: 20px;
+        margin-left: 20px;
+        color: white;
+    }
+    form button{
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        background-color: rgba(15, 123, 177, 0.948);
+        border: none;
+        border-radius: 5px;
+        padding: 5px 20px;
+    }
+    h2{
+        font-size: 40px;
+        margin-bottom: 20px;
+        padding-top: 40px;
+        color: white;
+    }
+    form a:hover{
+        font-size: 20px;
+        margin-left: 20px;
+        color: rgb(11, 77, 183);
+    }
+</style>
+
+<div class="container">
+    <div class="login-container">
+        <h2><center>Create Drive</center></h2>
+        <form action="{{ url_for('create_drive',comp_id=comp_id) }}" method="POST">
+            <label for="drivename">Drive name</label>
+            <br>
+            <input name='drivename' type="text" id="drivename" placeholder="Enter your Drivename">
+            <br>
+            <label for="title">Job Title</label>
+            <br>
+            <input name = 'title' type="text" id="title" placeholder="Enter job title">
+            <br>
+            <label for="description">Job Description</label>
+            <br>
+            <textarea name='description' id="description" placeholder="Enter your description"></textarea>
+            <br>
+            <label for="eligibilty">Eligibility</label>
+            <br>
+            <input name='eligibilty' type="text" id="eligibilty" placeholder="Enter eligibilty">
+            <br>
+            <label for="deadline">Application Deadline</label>
+            <br>
+            <input name='deadline' type="date" id="deadline" placeholder="DD-MM-YYYY">
+            <br>
+            <button type="submit" class="login-btn">Create</button>
+        </form>
+    </div>
+
+</div>
+{% endblock%}
