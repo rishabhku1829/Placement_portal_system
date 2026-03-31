@@ -111,7 +111,6 @@
     <div class="ban flex">
         <h1>Welcome! {{student.name}}</h1>
         <div class="contain-details">
-            <a href="">Edit Profile</a>
             <a href="{{url_for('student_history',id=student.id)}}">History</a>
         </div>
     </div>
@@ -147,7 +146,6 @@
                     <th>Drive name</th>
                     <th>Company</th>
                     <th>Date</th>
-                    <th></th>
                 </tr>
                 {% for application in applications %}
                 <tr class="application_td">
@@ -155,7 +153,6 @@
                     <td>{{application.drive_name}}</td>
                     <td>{{application.company_name}}</td>
                     <td>{{application.date}}</td>
-                    <td><a href="">view details</a></td>
                 </tr>
                 {% endfor %}
             {% else %}

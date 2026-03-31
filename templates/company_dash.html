@@ -123,14 +123,13 @@
                 <tr>
                     <th>Sr. No.</th>
                     <th>Drive name</th>
-                    <th colspan="2">Actions</th>
+                    <th>Actions</th>
                 </tr>
                 {% for drive in drives %}
                 <tr class="application_td">
                     <td>{{drive.id}}</td>
                     <td>{{drive.drive_name}}</td>
-                    <td><a href="{{url_for('drive_student',id=drive.id)}}">view details</a></td>
-                    <td><a href="">mark as complete</a></td>
+                    <td><a href="{{url_for('drive_student',id=drive.id,comp_id=company.id,job=drive.job_title)}}">view details</a></td>
                 </tr>
                 {% endfor %}
             {% else %}

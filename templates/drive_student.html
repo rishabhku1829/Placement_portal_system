@@ -84,7 +84,7 @@
                 {% for application in applications %}
                 <tr>
                     <th>{{application.student_name}}</th>
-                    <th><a href="{{ url_for('student_application_details',app_id=application.id) }}">Review Application</a></th>
+                    <th><a href="{{ url_for('student_application_details',app_id=application.id,comp_id=company.id,job=drive.job_title) }}">Review Application</a></th>
                 </tr>
                 {% endfor %}
                 {% else %}

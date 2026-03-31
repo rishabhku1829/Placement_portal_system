@@ -51,7 +51,7 @@ def login():
         
         #finding user
         user = User.query.filter_by(email=email,password=password).first()
-
+        profile = Profile.query.filter_by(company_id=user.id).first()
 
         #redirect user on their role
         if not user.is_blacklist:
@@ -61,7 +61,7 @@ def login():
                 session['role'] = user.role
                 return redirect(url_for('admin_dash'))
             
-            elif user and user.role == "company" and user.is_blacklist == False:
+            elif user and user.role == "company" and user.is_blacklist == False and profile.Status != 'pending':
                 session['name'] = user.name
                 session['id'] = user.id
                 session['role'] = user.role
@@ -167,32 +167,34 @@ def admin_dash():
 
     return render_template('admin_dash.html' , companies=companies , students=students, applications=applications, drives=drives, stu_applications=stu_applications)
 
-@app.route('/stu_application/<int:app_id>' , methods=['GET','POST'])
-def stu_application(app_id):
+
+
+@app.route('/stu_application/<int:app_id>/<job>' , methods=['GET','POST'])
+def stu_application(app_id,job):
     #filter companies
-    drive = Drive.query.filter_by(id=app_id).first()
+    drive = Drive.query.filter_by(job_title=job).first()
     drive_apply=aliased(Drive)
     
-    details = db.session.query(
+    application = db.session.query(
         Application.id,
         Application.student_name,  
         drive_apply.job_description.label('job_description'),
         drive_apply.job_title.label('job_title'),
         drive_apply.drive_name.label('drive_name')
-    ).select_from(Application).join(drive_apply,Application.drive_id==drive_apply.id).all()
+    ).select_from(Application).join(drive_apply,Application.drive_id==drive_apply.id).filter(drive_apply.job_title==job,Application.id==app_id).first()
 
-    applications = []
+    # applications = []
 
-    for detail in details:
-        applications.append({
-            'id':detail.id,
-            'student_name':detail.student_name,
-            'department':detail.job_description,
-            'job_title':detail.job_title,
-            'drive_name':detail.drive_name
-        })
+    # for detail in details:
+    #     applications.append({
+    #         'id':detail.id,
+    #         'student_name':detail.student_name,
+    #         'department':detail.job_description,
+    #         'job_title':detail.job_title,
+    #         'drive_name':detail.drive_name
+    #     })
 
-    return render_template('stu_application.html' , drive=drive, applications=applications)
+    return render_template('stu_application.html' , drive=drive, application=application)
 
 
 #company blacklist routes
@@ -310,32 +312,22 @@ def update_profile(id):
     return render_template('update_profile.html',company=company)
 
 
-@app.route('/student_application_details/<int:app_id>',methods=['GET','POST'])
-def student_application_details(app_id):
+@app.route('/student_application_details/<int:app_id>/<int:comp_id>/<job>',methods=['GET','POST'])
+def student_application_details(app_id,comp_id,job):
     #filter companies
-    drive = Drive.query.filter_by(id=app_id).first()
+    # company = User.query.filter_by(id=comp_id).first()
+    drive = Drive.query.filter_by(id=app_id,company_id=comp_id).first()
     drive_apply=aliased(Drive)
     
-    details = db.session.query(
+    application = db.session.query(
         Application.id,
-        Application.student_name,  
+        Application.student_name,
         drive_apply.job_description.label('job_description'),
         drive_apply.job_title.label('job_title'),
         drive_apply.drive_name.label('drive_name')
-    ).select_from(Application).join(drive_apply,Application.drive_id==drive_apply.id).all()
+    ).select_from(Application).join(drive_apply,Application.drive_id==drive_apply.id).filter(drive_apply.company_id==comp_id,drive_apply.job_title==job).first()
 
-    applications = []
-
-    for detail in details:
-        applications.append({
-            'id':detail.id,
-            'student_name':detail.student_name,
-            'department':detail.job_description,
-            'job_title':detail.job_title,
-            'drive_name':detail.drive_name
-        })
-
-    return render_template('student_application_details.html' , drive=drive, applications=applications)
+    return render_template('student_application_details.html' , drive=drive, application=application)
 
 
 
@@ -371,14 +363,15 @@ def create_drive(comp_id):
     return render_template('create_drive.html',comp_id=comp_id)
 
 
-@app.route('/drive_student/<int:id>',methods=['GET','POST'])
-def drive_student(id):
+@app.route('/drive_student/<int:id>/<int:comp_id>/<job>',methods=['GET','POST'])
+def drive_student(id,comp_id,job):
+    company = User.query.filter_by(id=comp_id).first()
     drive = Drive.query.filter_by(id=id).first()
     
     details = db.session.query(
         Application.id,
         Application.student_name,     
-    ).select_from(Application).join(Drive,Application.drive_id==Drive.id).all()
+    ).select_from(Application).join(Drive,Application.drive_id==Drive.id).filter(Drive.company_id==company.id,Drive.job_title==job).all()
 
     applications = []
 
@@ -388,7 +381,7 @@ def drive_student(id):
             'student_name':detail.student_name,
         })
 
-    return render_template('drive_student.html' , drive=drive, applications=applications)
+    return render_template('drive_student.html' , drive=drive, applications=applications ,company=company)
 
 #----------------------------------------STUDENT DASHBOARD ROUTES-------------------------------------#
 #Student Dash routes
@@ -407,7 +400,7 @@ def student_dash(id):
         drive.drive_name,  
         profile.company_name,
         Application.date
-    ).select_from(Application).join(drive,Application.drive_id==drive.id).join(profile,drive.company_id==profile.company_id).all()
+    ).select_from(Application).join(drive,Application.drive_id==drive.id).join(profile,drive.company_id==profile.company_id).filter(Application.student_id==id).all()
 
     applications = []
 
@@ -427,7 +420,7 @@ def student_history(id):
     student = User.query.filter_by(id=id).first()
 
     #join tables
-    drive =aliased(Drive)
+    drive=aliased(Drive)
 
     details = db.session.query(
         Application.student_name,

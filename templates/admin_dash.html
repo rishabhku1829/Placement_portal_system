@@ -255,7 +255,7 @@
                     <td>{{ application.drive_name}}</td>
                     <td>{{ application.company_name}}</td>
                     <td>{{ application.date}}</td>
-                    <td><a href="{{url_for('stu_application',app_id=application.id)}}">view</a></td>
+                    <td><a href="{{url_for('stu_application',app_id=application.id,job=application.job_title)}}">view</a></td>
                 </tr>
                 {% endfor %}
             {% else %}
