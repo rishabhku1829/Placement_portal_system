@@ -46,6 +46,30 @@
             transform: translateY(0);
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: black;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-left: 600px;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
         .content{
             background-color: rgb(32, 68, 127);
             height: 500px;
@@ -92,6 +116,18 @@
             margin-top: 100px;
             margin-right: 100px;
         }
+        label{
+            color: white;
+            font-size: 25px;
+            margin-left: 30px;
+            font-weight: bold;
+        }
+        select{
+            font-size: 20px;
+            padding: 2px 5px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
     </style>
 </head>
 <body>
@@ -111,6 +147,17 @@
                     <h3>Drive : {{application.drive_name}}</h3>
                     <br><br>
                     <h3>Job Title : {{application.job_title}}</h3>
+                    <br><br>
+                    <form action = "{{ url_for('student_application_details', app_id=drive.id, comp_id=drive.company_id, job=drive.job_title) }}" method="POST">
+                        <label for="actions">Choose action : </label>
+                        <select name="actions" id="actions">
+                            <option value="shortlist">Shortlist</option>
+                            <option value="waiting">Waiting</option>
+                            <option value="Reject">Reject</option>
+                        </select>
+                        <br><br>
+                        <button type="submit">save</button>
+                    </form>
                 </div>
 
                 {% else %}

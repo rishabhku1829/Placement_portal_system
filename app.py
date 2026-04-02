@@ -327,6 +327,17 @@ def student_application_details(app_id,comp_id,job):
         drive_apply.drive_name.label('drive_name')
     ).select_from(Application).join(drive_apply,Application.drive_id==drive_apply.id).filter(drive_apply.company_id==comp_id,drive_apply.job_title==job).first()
 
+    #Perform some actions on student applications
+    if request.method == "POST":
+        new_status = request.form.get('actions')
+
+        app = Application.query.filter_by(drive_id=drive.id).first()
+
+        app.status = new_status
+        db.session.commit()
+        return redirect(url_for('drive_student',id=drive.id, comp_id=drive.company_id, job=drive.job_title))
+
+
     return render_template('student_application_details.html' , drive=drive, application=application)
 
 
