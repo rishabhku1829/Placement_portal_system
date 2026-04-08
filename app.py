@@ -61,7 +61,7 @@ def login():
                 session['role'] = user.role
                 return redirect(url_for('admin_dash'))
             
-            elif user and user.role == "company" and user.is_blacklist == False and profile.Status != 'pending':
+            elif user and user.role == "company" and user.is_blacklist == False:
                 session['name'] = user.name
                 session['id'] = user.id
                 session['role'] = user.role
