@@ -1,5 +1,4 @@
 from flask import Flask,render_template,request , url_for , redirect , session , flash
-from werkzeug.security import generate_password_hash
 from functools import wraps 
 from sqlalchemy.orm import aliased
 from datetime import datetime
@@ -77,7 +76,7 @@ def login():
                 return redirect(url_for('login'))
         else:
             return redirect(url_for("login"))
-    return render_template('login.html')
+    return render_template('login.html')        
 
 
 #For logout
@@ -135,6 +134,7 @@ def admin_dash():
 
     #filter company applications
     applications = Profile.query.filter_by(Status='pending').distinct().all()
+
 
     #filter ongoing drives
     drives = Drive.query.distinct().all()
@@ -473,7 +473,7 @@ def drive_apply(id,stu_id):
         )
         db.session.add(new_apply)
         db.session.commit()
-
+ 
     return render_template('drive_apply.html',drive=drive,company=company,student=student)
 
 
